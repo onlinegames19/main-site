@@ -1,33 +1,39 @@
-name: Deploy to GitHub Pages
+        name: Deploy to GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
+        on:
+          push:
+            branches:
+              - main
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        # Add the permissions block here
+        permissions:
+          contents: read
+          pages: write
+          id-token: write
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
+        jobs:
+          build:
+            runs-on: ubuntu-latest
+            steps:
+              - name: Checkout repository
+                uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm install
+              - name: Setup Node.js
+                uses: actions/setup-node@v4
+                with:
+                  node-version: 18.x
 
-      - name: Build web app
-        run: npx expo export --platform web
+              - name: Install dependencies
+                run: npm install
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
+              - name: Build web app
+                run: npx expo export --platform web
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+              - name: Upload Pages artifact
+                uses: actions/upload-pages-artifact@v3
+                with:
+                  path: ./dist
+
+              - name: Deploy to GitHub Pages
+                id: deployment
+                uses: actions/deploy-pages@v3
